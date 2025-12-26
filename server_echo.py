@@ -19,8 +19,8 @@ def create_server(host='localhost', port=5000):
     data = client_socket.recv(1024).decode('utf-8')
     print(f"Server nhận được: {data}")
 
-    # 6. Gửi lại nguyên văn
-    response = f"Server đã nhận: {data}"
+    # 6. Chuyển thành chữ HOA
+    response = f"Server đã nhận: {data.upper()}"
     client_socket.send(response.encode('utf-8'))
 
     # 7. Đóng kết nối
