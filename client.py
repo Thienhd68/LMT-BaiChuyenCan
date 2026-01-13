@@ -1,37 +1,56 @@
 import socket
 
+# Nhập IP và Port từ bàn phím
+print("=" * 50)
+print("CẤU HÌNH CLIENT")
+print("=" * 50)
+
+host = input("Nhập địa chỉ IP của Server (Enter = localhost): ").strip()
+if not host:
+    host = 'localhost'
+
+port_input = input("Nhập Port (Enter = 12345): ").strip()
+if not port_input:
+    port = 12345
+else:
+    try:
+        port = int(port_input)
+        if port < 1024 or port > 65535:
+            print("⚠ Port nên nằm trong khoảng 1024-65535. Sử dụng 12345 mặc định.")
+            port = 12345
+    except ValueError:
+        print("⚠ Port không hợp lệ. Sử dụng 12345 mặc định.")
+        port = 12345
+
 # Tạo socket client
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-# Địa chỉ và cổng của server
-host = 'localhost'
-port = 12345
-
 try:
     # Kết nối đến server
-    print(f"CLIENT - CHUYỂN ĐỔI SỐ THÀNH CHỮ")
-    print(f"Đang kết nối đến server {host}:{port}...")
+    print("\n" + "=" * 50)
+    print(f"ĐANG KẾT NỐI ĐẾN SERVER {host}:{port}...")
+    print("=" * 50)
     client_socket.connect((host, port))
-    print("✓ Đã kết nối thành công!\n")
+    print("Đã kết nối thành công!\n")
     
     print("HƯỚNG DẪN:")
-    print("- Nhập một số tự nhiên từ 0 đến 10")
-    print("- Server sẽ chuyển đổi số thành chữ")
-    print("- Nhập 'Quit' để thoát chương trình")
+    print("- Nhập message để gửi đến server")
+    print("- Nhập '0' để thoát chương trình")
+    print("=" * 50 + "\n")
     
-    request_count = 0
+    message_count = 0
     
-    # Vòng lặp gửi số
+    # Vòng lặp gửi message
     while True:
-        # Nhập số từ người dùng
-        user_input = input("Nhập số (0-10) hoặc 'Quit': ").strip()
+        # Nhập message từ người dùng
+        message = input("Bạn: ")
         
-        # Gửi dữ liệu đến server
-        client_socket.send(user_input.encode('utf-8'))
-        request_count += 1
+        # Gửi message đến server
+        client_socket.send(message.encode('utf-8'))
+        message_count += 1
         
         # Kiểm tra lệnh thoát
-        if user_input.lower() == "quit":
+        if message.strip() == "0":
             # Nhận phản hồi cuối cùng từ server
             response = client_socket.recv(1024).decode('utf-8')
             print(f"\n{response}\n")
@@ -39,16 +58,22 @@ try:
         
         # Nhận phản hồi từ server
         response = client_socket.recv(1024).decode('utf-8')
-        print(f"→ Server: {response}\n")
+        print(f"Server: {response}\n")
     
-    print(f"✓ Tổng số request đã gửi: {request_count}")
-    print("✓ Client đã đóng kết nối và thoát")
+    print("=" * 50)
+    print(f"Tổng số message đã gửi: {message_count}")
+    print("Client đã đóng kết nối và thoát")
+    print("=" * 50)
     
 except ConnectionRefusedError:
-    print("\n✗ Lỗi: Không thể kết nối đến server!")
+    print("\nLỗi: Không thể kết nối đến server!")
+    print(f"  Kiểm tra lại địa chỉ {host}:{port}")
     print("  Hãy đảm bảo server đã chạy trước.")
+except socket.gaierror:
+    print("\nLỗi: Địa chỉ IP không hợp lệ!")
+    print(f"  Không thể phân giải địa chỉ: {host}")
 except Exception as e:
-    print(f"\n✗ Lỗi: {e}")
+    print(f"\nLỗi: {e}")
 finally:
     # Đóng kết nối
     client_socket.close()
