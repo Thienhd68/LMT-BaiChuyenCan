@@ -16,10 +16,10 @@ else:
     try:
         port = int(port_input)
         if port < 1024 or port > 65535:
-            print("⚠ Port nên nằm trong khoảng 1024-65535. Sử dụng 12345 mặc định.")
+            print("Port nên nằm trong khoảng 1024-65535. Sử dụng 12345 mặc định.")
             port = 12345
     except ValueError:
-        print("⚠ Port không hợp lệ. Sử dụng 12345 mặc định.")
+        print("Port không hợp lệ. Sử dụng 12345 mặc định.")
         port = 12345
 
 # Tạo socket client
