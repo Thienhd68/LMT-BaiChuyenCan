@@ -20,7 +20,7 @@ print("Đang chờ kết nối từ client...\n")
 
 # Chấp nhận kết nối
 client_socket, client_address = server_socket.accept()
-print(f"✓ Đã kết nối với client: {client_address}\n")
+print(f"Đã kết nối với client: {client_address}\n")
 
 # Vòng lặp nhận message
 message_count = 0
@@ -58,6 +58,6 @@ while True:
 # Đóng kết nối
 client_socket.close()
 server_socket.close()
-print(f"\n✓ Tổng số message đã nhận: {message_count}")
-print("✓ Server đã đóng kết nối và thoát")
+print(f"\nTổng số message đã nhận: {message_count}")
+print("Server đã đóng kết nối và thoát")
 print("=" * 50)

@@ -13,7 +13,7 @@ try:
     print(f"ĐANG KẾT NỐI ĐẾN SERVER {host}:{port}...")
     print("=" * 50)
     client_socket.connect((host, port))
-    print("✓ Đã kết nối thành công!\n")
+    print("Đã kết nối thành công!\n")
     
     print("HƯỚNG DẪN:")
     print("- Nhập message để gửi đến server")
@@ -43,15 +43,15 @@ try:
         print(f"Server: {response}\n")
     
     print("=" * 50)
-    print(f"✓ Tổng số message đã gửi: {message_count}")
-    print("✓ Client đã đóng kết nối và thoát")
+    print(f"Tổng số message đã gửi: {message_count}")
+    print("Client đã đóng kết nối và thoát")
     print("=" * 50)
     
 except ConnectionRefusedError:
-    print("\n✗ Lỗi: Không thể kết nối đến server!")
+    print("\nLỗi: Không thể kết nối đến server!")
     print("  Hãy đảm bảo server đã chạy trước.")
 except Exception as e:
-    print(f"\n✗ Lỗi: {e}")
+    print(f"\nLỗi: {e}")
 finally:
     # Đóng kết nối
     client_socket.close()
