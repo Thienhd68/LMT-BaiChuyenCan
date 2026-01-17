@@ -1,0 +1,67 @@
+import socket
+import time
+
+# Tạo socket client
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# Địa chỉ và cổng của server
+host = 'localhost'
+port = 12345
+
+try:
+    # Kết nối đến server
+    print(f"CLIENT - CHUYỂN ĐỔI SỐ THÀNH CHỮ (CÓ DELAY)")
+    print(f"Đang kết nối đến server {host}:{port}...")
+    client_socket.connect((host, port))
+    print("Đã kết nối thành công!\n")
+    
+    print("HƯỚNG DẪN:")
+    print("- Nhập một số tự nhiên từ 0 đến 10")
+    print("- Server sẽ delay theo số giây bạn nhập")
+    print("  (VD: nhập 5 → server delay 5 giây mới trả lời)")
+    print("- Nhập 'Quit' để thoát chương trình\n")
+    
+    request_count = 0
+    
+    # Vòng lặp gửi số
+    while True:
+        # Nhập số từ người dùng
+        user_input = input("Nhập số (0-10) hoặc 'Quit': ").strip()
+        
+        # Ghi lại thời gian gửi
+        send_time = time.time()
+        
+        # Gửi dữ liệu đến server
+        client_socket.send(user_input.encode('utf-8'))
+        request_count += 1
+        
+        # Kiểm tra lệnh thoát
+        if user_input.lower() == "quit":
+            # Nhận phản hồi cuối cùng từ server
+            response = client_socket.recv(1024).decode('utf-8')
+            print(f"\n{response}\n")
+            break
+        
+        print("⏳ Đang chờ phản hồi từ server...")
+        
+        # Nhận phản hồi từ server
+        response = client_socket.recv(1024).decode('utf-8')
+        
+        # Tính thời gian phản hồi
+        receive_time = time.time()
+        elapsed_time = receive_time - send_time
+        
+        print(f"→ Server: {response}")
+        print(f"⏱️  Thời gian phản hồi: {elapsed_time:.2f} giây\n")
+    
+    print(f"Tổng số request đã gửi: {request_count}")
+    print("Client đã đóng kết nối và thoát")
+    
+except ConnectionRefusedError:
+    print("\nLỗi: Không thể kết nối đến server!")
+    print("  Hãy đảm bảo server đã chạy trước.")
+except Exception as e:
+    print(f"\nLỗi: {e}")
+finally:
+    # Đóng kết nối
+    client_socket.close()
