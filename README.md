@@ -4,6 +4,8 @@
 
 Đây là repository lưu trữ các bài tập chuyên cần cho môn học **Lập Trình Mạng**.
 
+Đã có 9 bài trong repo này!
+
 ## 📄 License
 
 Dự án này được tạo ra cho mục đích học tập.
